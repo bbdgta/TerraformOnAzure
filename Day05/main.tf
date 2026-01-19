@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_network_security_group" "example" {
-  name                = "acceptanceTestSecurityGroup1"
+  name                = var.environment == "uat" ? "uat-nsg" : "stage-nsg"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
@@ -22,7 +22,7 @@ resource "azurerm_network_security_group" "example" {
       destination_address_prefix = "*"
     }
   }
-  
+
   tags = {
     environment = "Production"
   }
