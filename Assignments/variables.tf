@@ -52,9 +52,9 @@ variable "tags_environment" {
   }
 }
 
-variable "stoacc_name" {
-  type = string
-  description = "Storage account name"
-  default = substr("bbdgtisgoodandwillbeapartoftheexam",0,24)
+# variable "stoacc_name" {
+#   type = string
+#   description = "Storage account name"
+#   default = substr("bbdgtisgoodandwillbeapartofthegoogle",0,24)
   
-}
+# }
