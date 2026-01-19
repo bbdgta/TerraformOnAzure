@@ -23,7 +23,6 @@ resource "azurerm_network_security_group" "example" {
     }
   }
 
-  tags = {
-    environment = "Production"
-  }
+  tags = merge(var.tags_default, var.tags_environment)
+  
 }
