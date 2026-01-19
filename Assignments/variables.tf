@@ -51,3 +51,10 @@ variable "tags_environment" {
     project     = "project-x"
   }
 }
+
+variable "stoacc_name" {
+  type = string
+  description = "Storage account name"
+  default = substr("bbdgtisgoodandwillbeapartoftheexam",0,24)
+  
+}
