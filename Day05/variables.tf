@@ -56,5 +56,10 @@ variable "tags_environment" {
 #   type = string
 #   description = "Storage account name"
 #   default = substr("bbdgtisgoodandwillbeapartoftheexam",0,24)
-  
 # }
+
+variable "port" {
+  description = "all ports"
+  type        = string
+  default     = "22, 80, 443, 3389"
+}
