@@ -1,6 +1,8 @@
 resource "azurerm_resource_group" "example" {
-  name     = "${var.environment}-resources"
-  location = var.allowed_locations[0]
+  name     = "${var.environment}-rg"
+  location = "East US 2"
+
+  tags = merge(var.tags_default, var.tags_environment)
 }
 
 resource "azurerm_storage_account" "example" {
