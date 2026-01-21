@@ -13,3 +13,12 @@ output "sam2" {
 output "sam3" {
   value = local.vm_sze
 }
+
+output "sam4" {
+  value = endswith(var.backup_name, "_backup") ? "uat-backup" : "stage-backup"
+}
+
+output "sam5" {
+  value = var.credential
+  sensitive = true
+}

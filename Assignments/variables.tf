@@ -71,3 +71,16 @@ variable "port" {
   type        = list(number)
   default     = [22, 80, 443, 3389]
 }
+
+variable "backup_name" {
+  description = "Daily backup"
+  type        = string
+  default     = "dailybackup"
+}
+
+variable "credential" {
+  description = "Credential for backup"
+  type        = string
+  default     = "xyz123"
+  sensitive = true
+}

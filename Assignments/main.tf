@@ -7,6 +7,7 @@ resource "azurerm_resource_group" "example" {
 locals {
   nsg = join("-", [for port in var.port : "port-${port}"])
   vm_sze = lookup(var.vmsizes, var.environment, "standard_D2s_v3")
+  backup_name = endswith(var.backup_name, "_backup") ? "uat-backup" : "stage-backup"
 }
 
 resource "azurerm_network_security_group" "example" {
