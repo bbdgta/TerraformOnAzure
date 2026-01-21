@@ -9,3 +9,7 @@ output "sam1" {
 output "sam2" {
   value = join("-", [for port in var.port : "port-${port}"])
 }
+
+output "sam3" {
+  value = local.vm_sze
+}

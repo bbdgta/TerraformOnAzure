@@ -7,21 +7,20 @@ variable "subscription_id" {
 variable "environment" {
     type = string
     description = "Default env type"
-    default = "dev"
+    default = "prod"
+    validation {
+      condition = contains(["dev","prod","test"],var.environment)
+      error_message = "Enter correct value for environment. Allowed values are dev, prod, test."
+    }
 }
 
-variable "environments" {
+variable "vmsizes" {
     type = map(string)
     description = "Default environment type"
     default = {
-        dev = {
-            instance_size = "small"
-            redundancy    = "low"
-        }
-        prod = {
-            instance_size = "large"
-            redundancy    = "high"
-        } 
+        dev  = "standard_D2s_v3",
+        prod = "standard_D4s_v3",
+        test = "standard_D8s_v3"
     }
 }
 

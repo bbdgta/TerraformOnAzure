@@ -6,11 +6,11 @@ resource "azurerm_resource_group" "example" {
 
 locals {
   nsg = join("-", [for port in var.port : "port-${port}"])
+  vm_sze = lookup(var.vmsizes, var.environment, "standard_D2s_v3")
 }
 
 resource "azurerm_network_security_group" "example" {
-  # name                = var.environment == "uat" ? "uat-nsg" : "stage-nsg"
-  name                = lookup(var.environments[var.environment]["instance_size"], var.environment, "default-nsg")
+  name                = var.environment == "uat" ? "uat-nsg" : "stage-nsg"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
