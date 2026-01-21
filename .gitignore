@@ -1,0 +1,17 @@
+# Terraform files
+.terraform/
+**/.terraform/
+terraform.tfstate
+terraform.tfstate.*
+.terraform.lock.hcl
+**/.terraform.lock.hcl
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
