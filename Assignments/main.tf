@@ -9,7 +9,8 @@ locals {
 }
 
 resource "azurerm_network_security_group" "example" {
-  name                = var.environment == "uat" ? "uat-nsg" : "stage-nsg"
+  # name                = var.environment == "uat" ? "uat-nsg" : "stage-nsg"
+  name                = lookup(var.environments[var.environment]["instance_size"], var.environment, "default-nsg")
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 

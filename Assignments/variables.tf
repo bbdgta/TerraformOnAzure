@@ -7,7 +7,22 @@ variable "subscription_id" {
 variable "environment" {
     type = string
     description = "Default env type"
-    default = "uat"
+    default = "dev"
+}
+
+variable "environments" {
+    type = map(string)
+    description = "Default environment type"
+    default = {
+        dev = {
+            instance_size = "small"
+            redundancy    = "low"
+        }
+        prod = {
+            instance_size = "large"
+            redundancy    = "high"
+        } 
+    }
 }
 
 variable "storage_os" {
