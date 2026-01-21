@@ -34,3 +34,27 @@ variable "storage_account_name" {
   type = set(string)
   default = ["bbdgt221", "bbdgt222", "bbdgt223"]
 }
+
+variable "tags_default" {
+  type = map(string)
+  description = "Default tags to apply to resources"
+  default = {
+    company    = "TechCorp"
+    managed_by = "terraform"
+  }
+}
+variable "tags_environment" {
+  type = map(string)
+  description = "Environment specific tags"
+  default = {
+    environment = "development"
+    project     = "project-x"
+  }
+}
+
+# variable "stoacc_name" {
+#   type = string
+#   description = "Storage account name"
+#   default = substr("bbdgtisgoodandwillbeapartoftheexam",0,24)
+  
+# }

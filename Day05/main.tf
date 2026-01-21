@@ -1,6 +1,8 @@
 resource "azurerm_resource_group" "example" {
-  name     = "${var.environment}-resources"
-  location = var.allowed_locations[0]
+  name     = "${var.environment}-rg"
+  location = "East US 2"
+
+  tags = merge(var.tags_default, var.tags_environment)
 }
 
 resource "azurerm_network_security_group" "example" {
@@ -23,7 +25,6 @@ resource "azurerm_network_security_group" "example" {
     }
   }
 
-  tags = {
-    environment = "Production"
-  }
+  tags = merge(var.tags_default, var.tags_environment)
+  
 }
