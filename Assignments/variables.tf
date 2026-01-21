@@ -52,8 +52,8 @@ variable "tags_environment" {
   }
 }
 
-# variable "stoacc_name" {
-#   type = string
-#   description = "Storage account name"
-#   default = substr("bbdgtisgoodandwillbeapartoftheexam",0,24)
-# }
+variable "port" {
+  description = "all ports"
+  type        = list(number)
+  default     = [22, 80, 443, 3389]
+}

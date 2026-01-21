@@ -2,7 +2,10 @@ resource "azurerm_resource_group" "example" {
   name     = "${var.environment}-rg"
   location = "East US 2"
 
-  tags = merge(var.tags_default, var.tags_environment)
+}
+
+locals {
+  nsg = join("-", [for port in var.port : "port-${port}"])
 }
 
 resource "azurerm_network_security_group" "example" {
@@ -22,6 +25,7 @@ resource "azurerm_network_security_group" "example" {
       destination_port_range     = security_rule.value.destination_port_range
       source_address_prefix      = "*"
       destination_address_prefix = "*"
+      description = local.nsg
     }
   }
 

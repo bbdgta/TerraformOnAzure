@@ -5,3 +5,7 @@ output "sam" {
 output "sam1" {
   value = local.nsg_rules[*]
 }
+
+output "sam2" {
+  value = join("-", [for port in var.port : "port-${port}"])
+}
