@@ -84,3 +84,31 @@ variable "credential" {
   default     = "xyz123"
   sensitive = true
 }
+
+variable "mainfileexists" {
+  description = "Check if main.tf exists"
+  type        = bool
+  default = true
+  validation {
+    condition = fileexists("./main.tf") ? var.mainfileexists : true
+    error_message = "main.tf file does not exist in the current directory."
+  }
+}
+
+variable "user_locations" {
+  description = "user locations defined"
+  type        = list(string)
+  default     = ["eastus", "westus", "eastus"]
+}
+
+variable "default_locations" {
+  description = "Default Locations"
+  type = list(string)
+  default = [ "centralus" ]
+}
+
+variable "costs" {
+  description = "various costs"
+  type = list(number)
+  default = [-50, 100, 75, 200]
+}

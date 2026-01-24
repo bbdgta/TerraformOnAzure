@@ -8,6 +8,9 @@ locals {
   nsg = join("-", [for port in var.port : "port-${port}"])
   vm_sze = lookup(var.vmsizes, var.environment, "standard_D2s_v3")
   backup_name = endswith(var.backup_name, "_backup") ? "uat-backup" : "stage-backup"
+  combined_locations = toset(concat(var.user_locations, var.default_locations))
+  total_cost = toset([for cost in var.costs : abs(cost)])
+  max_cost = max(local.total_cost...)
 }
 
 resource "azurerm_network_security_group" "example" {
