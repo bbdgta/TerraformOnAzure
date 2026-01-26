@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "rg" {
     name     = "theprojectrg"
-    location = "canadacentral"
+    location = "Central US"
     }
 
 resource "azurerm_network_security_group" "nsg" {
@@ -48,6 +48,10 @@ resource "azurerm_network_security_group" "nsg" {
 resource "azurerm_subnet_network_security_group_association" "myNSG" {
   subnet_id                 = azurerm_subnet.subnet1.id
   network_security_group_id = azurerm_network_security_group.nsg.id
+  depends_on = [
+    azurerm_subnet.subnet1,
+    azurerm_network_security_group.nsg
+  ]
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -123,6 +127,7 @@ resource "azurerm_lb_nat_rule" "ssh" {
     frontend_port                  = 4222
     backend_port                   = 22
     frontend_ip_configuration_name = "LoadBalancerFrontEnd"
+    depends_on = [azurerm_lb.LoadBalancer1]
 }
 
 resource "azurerm_public_ip" "NatgwpubIP" {
