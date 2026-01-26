@@ -1,8 +1,11 @@
+#Creation of the resource group
 resource "azurerm_resource_group" "rg" {
     name     = "theprojectrg"
     location = "Central US"
     }
 
+
+# Creation of Network Security Group with security rules
 resource "azurerm_network_security_group" "nsg" {
   name                = "nsg-security-group"
   location            = azurerm_resource_group.rg.location
@@ -44,7 +47,7 @@ resource "azurerm_network_security_group" "nsg" {
         destination_address_prefix = "*"
     }
 }
-
+# Association of NSG to Subnet
 resource "azurerm_subnet_network_security_group_association" "myNSG" {
   subnet_id                 = azurerm_subnet.subnet1.id
   network_security_group_id = azurerm_network_security_group.nsg.id
@@ -53,7 +56,7 @@ resource "azurerm_subnet_network_security_group_association" "myNSG" {
     azurerm_network_security_group.nsg
   ]
 }
-
+# Creation of Virtual Network and Subnet
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-network"
   location            = azurerm_resource_group.rg.location
@@ -64,7 +67,7 @@ resource "azurerm_virtual_network" "vnet" {
     environment = "Test"
     }
 }
-
+# Creation of Subnet
 resource "azurerm_subnet" "subnet1" {
   name                 = "subnet-1"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -72,6 +75,7 @@ resource "azurerm_subnet" "subnet1" {
   address_prefixes     = ["10.0.0.0/20"]
 }
 
+# Creation of Public IP for Load Balancer
 resource "azurerm_public_ip" "LoadBalancerPublicIP1" {
   name                = "LoadBalancerPublicIP"
   location            = azurerm_resource_group.rg.location
@@ -95,10 +99,13 @@ resource "azurerm_lb" "LoadBalancer1" {
 
 }
 
+# Backend address pool, load balancing rule, health probe, and NAT rule
 resource "azurerm_lb_backend_address_pool" "bePool" {
     name                = "BackendAddressPool"
     loadbalancer_id    = azurerm_lb.LoadBalancer1.id
 }
+
+# Load balancing rule and health probe
 
 resource "azurerm_lb_rule" "name" {
     name                           = "HTTP"
@@ -111,6 +118,7 @@ resource "azurerm_lb_rule" "name" {
     probe_id                       = azurerm_lb_probe.probe.id
 }
 
+# Health probe
 resource "azurerm_lb_probe" "probe" {
     name                = "HTTP-probe"
     loadbalancer_id     = azurerm_lb.LoadBalancer1.id
@@ -119,6 +127,7 @@ resource "azurerm_lb_probe" "probe" {
     request_path        = "/"
 }
 
+# NAT rule for SSH
 resource "azurerm_lb_nat_rule" "ssh" {
     name                           = "SSH"
     resource_group_name = azurerm_resource_group.rg.name
@@ -130,6 +139,7 @@ resource "azurerm_lb_nat_rule" "ssh" {
     depends_on = [azurerm_lb.LoadBalancer1]
 }
 
+#   Creation of NAT Gateway and association with Subnet
 resource "azurerm_public_ip" "NatgwpubIP" {
     name                = "NatgwpubIP"
     location            = azurerm_resource_group.rg.location
@@ -138,7 +148,7 @@ resource "azurerm_public_ip" "NatgwpubIP" {
     sku                 = "Standard"
     zones               = [ "1"]
 }
-
+# Creation of NAT Gateway
 resource "azurerm_nat_gateway" "Natgw" {
     name                = "Natgw"
     location            = azurerm_resource_group.rg.location
@@ -149,11 +159,13 @@ resource "azurerm_nat_gateway" "Natgw" {
 
 }
 
+# Association of NAT Gateway with Subnet
 resource "azurerm_subnet_nat_gateway_association" "Natgwassoc" {
     subnet_id      = azurerm_subnet.subnet1.id
     nat_gateway_id = azurerm_nat_gateway.Natgw.id
 }
 
+# Association of Public IP with NAT Gateway
 resource "azurerm_nat_gateway_public_ip_association" "NatgwpubIPAssoc" {
     nat_gateway_id      = azurerm_nat_gateway.Natgw.id
     public_ip_address_id = azurerm_public_ip.NatgwpubIP.id  
